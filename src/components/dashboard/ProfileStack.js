@@ -1,7 +1,7 @@
 import React from "react";
 
 function ProfileStack() {
-  return <div>ProfileStack</div>;
+  return <div>Profile</div>;
 }
 
 export default ProfileStack;
