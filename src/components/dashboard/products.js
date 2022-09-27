@@ -1,6 +1,7 @@
 import { Divider, Grid, Slider, useMediaQuery, useTheme } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useOutletContext } from "react-router";
+import { AppContext } from "../../App";
 import { backend_url } from "../../backendUrl";
 import ImgMediaCard from "../card";
 import Filter from "../Filter/filter";
@@ -11,13 +12,18 @@ import PositionedSnackbar from "../snackbar";
 export const productContext = React.createContext();
 
 function Products() {
-  const { currentPage, login_role, setCurrentPage } = useOutletContext();
+  const {
+    currentPage,
+    login_role,
+    setCurrentPage,
+    setProgressBar,
+  } = useContext(AppContext);
 
   const [products, setProducts] = useState([]);
 
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-  const [progressBar, setProgressBar] = useState(false);
+  // const [progressBar, setProgressBar] = useState(false);
 
   const initialSnackState = {
     open: false,
@@ -63,9 +69,9 @@ function Products() {
   }, []);
 
   return (
-    <div style={{ marginTop: "1vh" }}>
+    <div style={{ marginTop: "10vh" }}>
       {!isMatch ? (
-        <div style={{ marginTop: "5vh" }}>
+        <div style={{ marginTop: "12vh" }}>
           <Filter />
           <Divider />
         </div>
@@ -78,11 +84,16 @@ function Products() {
           snackState={snackState}
           setSnackState={setSnackState}
         />
-        {progressBar && (
+        {/* {progressBar && (
           <LinearDeterminate sx={{ height: "5%" }}></LinearDeterminate>
-        )}
+        )} */}
         <productContext.Provider
-          value={{ setCurrentPage, login_role, fetchProducts }}
+          value={{
+            setCurrentPage,
+            login_role,
+            fetchProducts,
+            setProgressBar,
+          }}
         >
           <ProductGrid cart={currentPage === "Cart"} products={products} />
         </productContext.Provider>

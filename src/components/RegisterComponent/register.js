@@ -39,6 +39,7 @@ function Register() {
     for (let i in data) {
       if (data[i] === "") {
         setSnackState({ ...snackState, msg: "fill empty fileds", open: true });
+        setProgressBar(false);
         flag = false;
         break;
       }
@@ -46,13 +47,16 @@ function Register() {
     if (flag) {
       if (!pattern.test(data.email)) {
         setSnackState({ ...snackState, msg: "enter valid email", open: true });
+        setProgressBar(false);
       } else if (data.phone.length !== 10) {
+        setProgressBar(false);
         setSnackState({
           ...snackState,
           msg: "enter valid phone number",
           open: true,
         });
       } else if (data.password !== data.confirm) {
+        setProgressBar(false);
         setSnackState({
           ...snackState,
           msg: "confirm password does'nt match",
@@ -70,6 +74,7 @@ function Register() {
           },
         });
         const resp_data = await response.json();
+        setProgressBar(false);
         if (
           resp_data.message === "User Registered Successfully" ||
           resp_data.message === "Registered successfuly"
@@ -107,12 +112,14 @@ function Register() {
       style={{
         display: "flex",
         justifyContent: "center",
+        height: "100vh",
         width: "75%",
         marginLeft: "12%",
         alignSelf: "center",
+        flexFlow: "column",
       }}
     >
-      <div>{progressBar && <LinearDeterminate sx={{ height: "5%" }} />}</div>
+      {progressBar && <LinearDeterminate sx={{ height: "5%" }} />}
       <PositionedSnackbar
         snackState={snackState}
         setSnackState={setSnackState}
@@ -121,9 +128,10 @@ function Register() {
         container
         style={{
           display: "flex",
-          width: "75vh",
-          height: "100%",
+          width: "70vh",
+          height: "90vh",
           justifyContent: "center",
+          alignSelf: "center",
         }}
         columnSpacing={2}
       >

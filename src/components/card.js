@@ -8,18 +8,27 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router";
 import { backend_url } from "../backendUrl";
-import LinearDeterminate from "./progressbar";
+
 import PositionedSnackbar from "./snackbar";
 import { productContext } from "./dashboard/products";
 
 export default function ImgMediaCard({ product, cart }) {
   const navigate = useNavigate();
 
-  const { setCurrentPage, login_role, fetchProducts } = React.useContext(
-    productContext
-  );
+  const {
+    setCurrentPage,
+    login_role,
+    fetchProducts,
+    setProgressBar,
+  } = React.useContext(productContext);
 
-  const [progressBar, setProgressBar] = React.useState(false);
+  const state = {
+    setCurrentPage,
+    login_role,
+    setProgressBar,
+    product_id: product.product_id,
+  };
+
   const initialSnackState = {
     open: false,
     msg: "default",
@@ -85,7 +94,6 @@ export default function ImgMediaCard({ product, cart }) {
 
   return (
     <Card sx={{ maxWidth: 300, maxHeight: 400 }}>
-      {progressBar && <LinearDeterminate sx={{ height: "5%" }} />}
       <PositionedSnackbar
         snackState={snackState}
         setSnackState={setSnackState}
@@ -97,7 +105,9 @@ export default function ImgMediaCard({ product, cart }) {
           alt="green iguana"
           height="180"
           image={product.img}
-          onClick={() => navigate("/productDetail", { state: { product } })}
+          onClick={() => {
+            navigate("/productDetail", { state: { product } });
+          }}
         />
         <CardContent
           onClick={() => navigate("/productDetail", { state: { product } })}

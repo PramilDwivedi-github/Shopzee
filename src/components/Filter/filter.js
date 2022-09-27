@@ -6,7 +6,7 @@ import { Grid, Switch, Typography } from "@mui/material";
 function Filter() {
   const [checked, setChecked] = React.useState(false);
   return (
-    <Grid container>
+    <Grid container sx={{ marginTop: "2vh" }}>
       <Grid item md={4} xs={12}>
         <>
           <Typography>Cost</Typography>

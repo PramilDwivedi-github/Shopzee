@@ -26,7 +26,11 @@ export default function LinearDeterminate() {
     //   <LinearProgress variant="determinate" value={progress} />
     // </Box>
     <div>
-      <LinearProgress variant="determinate" value={progress} />
+      <LinearProgress
+        variant="determinate"
+        color="secondary"
+        value={progress}
+      />
     </div>
   );
 }

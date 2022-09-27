@@ -6,6 +6,7 @@ import { Grid } from "@mui/material";
 import CartCard from "./cartcard";
 
 function ProductGrid({ cart, products }) {
+  
   return (
     <div>
       <Grid container spacing={1}>

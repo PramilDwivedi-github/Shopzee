@@ -17,47 +17,50 @@ import Cart from "./components/dashboard/cart";
 import CustomRoute from "./components/CustomRoute";
 import ProductDetail from "./components/dashboard/ProductDetail";
 import AddProduct from "./components/dashboard/addproduct";
+
+export const AppContext = React.createContext();
+
 const App = () => {
   const [currentPage, setCurrentPage] = useState("Products");
+  const [progressBar, setProgressBar] = useState(false);
   const [login_role, setLoginRole] = useState({
     isLoggedIn: false,
     role: "Customer",
   });
   // render() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Navigate to={"/products"} />} />
-          <Route
-            strict
-            path="/"
-            element={
-              <CustomRoute>
-                <Dashboard
-                  login_role={login_role}
-                  currentPage={currentPage}
-                  setLoginRole={setLoginRole}
-                  setCurrentPage={setCurrentPage}
-                />
-              </CustomRoute>
-            }
-          >
-            <Route path="products" element={<Products />}></Route>
-            <Route path="orders" element={<Orders />}></Route>
-            <Route path="cart" element={<Cart />}></Route>
-            <Route path="productDetail" element={<ProductDetail />}></Route>
-            <Route path="addProduct" element={<AddProduct />}></Route>
-          </Route>
+    <AppContext.Provider
+      value={{
+        currentPage,
+        progressBar,
+        login_role,
+        setCurrentPage,
+        setProgressBar,
+        login_role,
+        setLoginRole,
+      }}
+    >
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Navigate to={"/products"} />} />
+            <Route strict path="/" element={<Dashboard />}>
+              <Route path="products" element={<Products />}></Route>
+              <Route path="orders" element={<Orders />}></Route>
+              <Route path="cart" element={<Cart />}></Route>
+              <Route path="productDetail" element={<ProductDetail />}></Route>
+              <Route path="addProduct" element={<AddProduct />}></Route>
+            </Route>
 
-          <Route
-            path="/login"
-            element={<Login setLoginRole={setLoginRole} />}
-          ></Route>
-          <Route path="/register" element={<Register />}></Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+            <Route
+              path="/login"
+              element={<Login setLoginRole={setLoginRole} />}
+            ></Route>
+            <Route path="/register" element={<Register />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </AppContext.Provider>
   );
   // }
 };

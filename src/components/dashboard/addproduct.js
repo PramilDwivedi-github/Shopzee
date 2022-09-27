@@ -8,8 +8,9 @@ import {
   Typography,
   breadcrumbsClasses,
 } from "@mui/material";
-import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import React, { useContext, useState } from "react";
+import { useNavigate, useOutletContext } from "react-router";
+import { AppContext } from "../../App";
 import { backend_url } from "../../backendUrl";
 import CustomizedMenus from "../category";
 import LinearDeterminate from "../progressbar";
@@ -26,6 +27,8 @@ let initialProduct = {
 
 function AddProduct() {
   const [product, setProduct] = useState(initialProduct);
+
+  const { setProgressBar, setCurrentPage } = useContext(AppContext);
 
   const convertBase64 = (e) => {
     let files = e.target.files;
@@ -44,8 +47,6 @@ function AddProduct() {
     vertical: "top",
     horizontal: "center",
   });
-
-  const [progressBar, setProgressBar] = useState(false);
 
   const navigate = useNavigate();
 
@@ -88,6 +89,7 @@ function AddProduct() {
             severity: "success",
           });
           setTimeout(() => {
+            setCurrentPage("Products");
             navigate("/products");
           }, 2000);
         } else {
@@ -117,7 +119,6 @@ function AddProduct() {
       }}
       className="addProduct"
     >
-      <div>{progressBar && <LinearDeterminate sx={{ height: "5%" }} />}</div>
       <PositionedSnackbar
         snackState={snackState}
         setSnackState={setSnackState}
@@ -204,11 +205,11 @@ function AddProduct() {
             }
           ></textarea>
         </Grid>
-      </Grid>
-      <Grid item sx={{ marginTop: "5vh" }}>
-        <Button variant="contained" color="secondary" onClick={addProduct}>
-          Add Product
-        </Button>
+        <Grid item sx={{ marginTop: "5vh" }}>
+          <Button variant="contained" color="secondary" onClick={addProduct}>
+            Add Product
+          </Button>
+        </Grid>
       </Grid>
     </div>
   );

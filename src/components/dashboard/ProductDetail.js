@@ -1,11 +1,59 @@
 import { Grid, CardMedia, Card, Typography, Button } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
-import { useLocation } from "react-router";
+import React, { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { AppContext } from "../../App";
+import { backend_url } from "../../backendUrl";
 
-function ProductDetail() {
-  const location = useLocation();
-  const { product } = location.state;
+const ProductDetail = () => {
+  const { setProgressBar, setCurrentPage, login_role } = useContext(AppContext);
+  const { state } = useLocation();
+  const { product } = state;
+  const navigate = useNavigate();
+
+  const [copies, setCopies] = useState(1);
+  const initialSnackState = {
+    open: false,
+    msg: "default",
+    severity: "error",
+    vertical: "top",
+    horizontal: "center",
+    withCircularProgress: false,
+  };
+  const [snackState, setSnackState] = useState(initialSnackState);
+
+  const addToCart = async () => {
+    if (!login_role.isLoggedIn) navigate("/login");
+    else {
+      setProgressBar(true);
+      let cartUrl = backend_url + "buyer/api/addCartItem";
+      product.copies = copies;
+      const response = await fetch(cartUrl, {
+        method: "POST",
+        body: JSON.stringify(product),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const resp_data = await response.json();
+      setProgressBar(false);
+      if (
+        resp_data.message === "added successfuly" ||
+        resp_data.message === "success"
+      ) {
+        setCurrentPage("Cart");
+        navigate("/cart");
+      } else {
+        setSnackState({
+          ...snackState,
+          open: true,
+          severity: "error",
+          msg: resp_data.message,
+        });
+      }
+    }
+  };
 
   return (
     <div style={{ marginTop: "5vh" }}>
@@ -31,14 +79,30 @@ function ProductDetail() {
               <Typography sx={{ fontSize: "0.8rem", color: "green" }}>
                 available
               </Typography>
-              <Typography>{`Picked ${1}`}</Typography>
+              <Typography>{`Picked ${copies}`}</Typography>
             </div>
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-              <Button variant="contained" sx={{ background: "green" }}>
+              <Button
+                variant="contained"
+                sx={{ background: "green" }}
+                onClick={addToCart}
+              >
                 cart
               </Button>
-              <button>+</button>
-              <button>-</button>
+              <button
+                onClick={() => {
+                  setCopies((prev) => prev + 1);
+                }}
+              >
+                +
+              </button>
+              <button
+                onClick={() => {
+                  setCopies((prev) => prev - 1);
+                }}
+              >
+                -
+              </button>
             </div>
           </div>
         </Grid>
@@ -51,6 +115,6 @@ function ProductDetail() {
       </Grid>
     </div>
   );
-}
+};
 
 export default ProductDetail;

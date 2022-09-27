@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProductGrid from "../productGrid";
 import { useNavigate, useOutletContext } from "react-router";
 import LinearDeterminate from "../progressbar";
 import PositionedSnackbar from "../snackbar";
 import { backend_url } from "../../backendUrl";
 import { Button, Typography } from "@mui/material";
+import { AppContext } from "../../App";
 
 export const cartContext = React.createContext();
 
 function Cart() {
-  const { login_role, setCurrentPage } = useOutletContext();
+  const { login_role, setCurrentPage, setProgressBar } = useContext(AppContext);
   const isCart = true;
 
   const [cartItems, setCartItems] = useState([]);
@@ -17,7 +18,6 @@ function Cart() {
 
   const navigate = useNavigate();
 
-  const [progressBar, setProgressBar] = React.useState(false);
   const initialSnackState = {
     open: false,
     msg: "default",
@@ -96,7 +96,6 @@ function Cart() {
 
   return (
     <div style={{ marginTop: "12vh" }}>
-      {progressBar && <LinearDeterminate sx={{ height: "5%" }} />}
       <PositionedSnackbar
         snackState={snackState}
         setSnackState={setSnackState}

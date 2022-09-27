@@ -59,7 +59,7 @@ function Login({ setLoginRole }) {
         localStorage.setItem("token", resp_data.token);
         setLoginRole({ isLoggedIn: true, role: data.role });
         setProgressBar(false);
-        navigate("/products");
+        navigate("/products", { replace: true });
       } else {
         setSnackState({
           ...snackState,

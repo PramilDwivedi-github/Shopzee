@@ -9,12 +9,22 @@ import {
   useMediaQuery,
   Avatar,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import TemporaryDrawer from "./DrawerComp";
 import { useNavigate } from "react-router";
+import LinearDeterminate from "../progressbar";
+import { AppContext } from "../../App";
 
-function Header({ setCurrentPage, login_role, setLoginRole, currentPage }) {
+function Header() {
+  const {
+    setCurrentPage,
+    login_role,
+    setLoginRole,
+    currentPage,
+    progressBar,
+  } = useContext(AppContext);
+
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
   const theme = useTheme();
@@ -23,6 +33,8 @@ function Header({ setCurrentPage, login_role, setLoginRole, currentPage }) {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setLoginRole({ isLoggedIn: false, role: "Customer" });
+    setCurrentPage("Products");
+    navigate("/products");
   };
 
   useEffect(() => {
@@ -89,7 +101,10 @@ function Header({ setCurrentPage, login_role, setLoginRole, currentPage }) {
                 <Button
                   variant="contained"
                   sx={{ marginLeft: "auto" }}
-                  onClick={() => navigate("/login")}
+                  onClick={() => {
+                    setCurrentPage("Products");
+                    navigate("/login");
+                  }}
                 >
                   Login
                 </Button>
@@ -112,6 +127,10 @@ function Header({ setCurrentPage, login_role, setLoginRole, currentPage }) {
             </>
           )}
         </Toolbar>
+
+        {progressBar && (
+          <LinearDeterminate className="progress" sx={{ height: "30vh" }} />
+        )}
       </AppBar>
     </div>
   );
