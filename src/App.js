@@ -4,13 +4,7 @@ import React, { useState } from "react";
 import Login from "./components/LoginComponent/login";
 import Register from "./components/RegisterComponent/register";
 import Dashboard from "./components/dashboard/dashboard";
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Navigate,
-  Router,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Products from "./components/dashboard/products";
 import Orders from "./components/dashboard/orders";
 import Cart from "./components/dashboard/cart";
