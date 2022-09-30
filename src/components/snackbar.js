@@ -32,7 +32,7 @@ export default function PositionedSnackbar({ snackState, setSnackState }) {
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={handleClose}
         key={vertical + horizontal}
       >

@@ -26,24 +26,36 @@ const marks = [
 ];
 
 function valuetext(value) {
-  return `${value}°C`;
+  return `${value * 20}`;
 }
 
-function valueLabelFormat(value) {
-  return marks.findIndex((mark) => mark.value === value) + 1;
-}
+export default function RangeSlider({
+  setProductFilter,
+  productFilter,
+  checked,
+}) {
+  const [value, setValue] = React.useState([0, 25]);
 
-export default function DiscreteSliderValues() {
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    let x = newValue[0] * 20;
+    let y = newValue[1] * 20;
+    setProductFilter({ ...productFilter, cost: [x, y] });
+  };
+  React.useEffect(() => {
+    if (checked === false) setValue([0, 25]);
+  }, [checked]);
   return (
-    <Slider
-      sx={{ width: 200 }}
-      aria-label="Restricted values"
-      defaultValue={20}
-      valueLabelFormat={valueLabelFormat}
-      getAriaValueText={valuetext}
-      step={null}
-      valueLabelDisplay="auto"
-      marks={marks}
-    />
+    <Box sx={{ width: 200 }}>
+      <Slider
+        getAriaLabel={() => "Temperature range"}
+        value={value}
+        onChange={handleChange}
+        valueLabelDisplay="off"
+        getAriaValueText={valuetext}
+        marks={marks}
+        sx={{ marginLeft: "3vw" }}
+      />
+    </Box>
   );
 }

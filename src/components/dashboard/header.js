@@ -32,6 +32,7 @@ function Header() {
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     setLoginRole({ isLoggedIn: false, role: "Customer" });
     setCurrentPage("Products");
     navigate("/products");
@@ -51,6 +52,7 @@ function Header() {
               <TemporaryDrawer
                 login_role={login_role}
                 handleLogout={handleLogout}
+                setCurrentPage={setCurrentPage}
               />
               <Typography>Shopzee</Typography>
               <ShoppingCartIcon />
@@ -123,7 +125,16 @@ function Header() {
                   Logout
                 </Button>
               )}
-              {login_role.isLoggedIn && <Avatar alt="Remy Sharp" src="" />}
+              {login_role.isLoggedIn && (
+                <Avatar
+                  alt="Remy Sharp"
+                  sx={{ cursor: "pointer" }}
+                  src=""
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                />
+              )}
             </>
           )}
         </Toolbar>

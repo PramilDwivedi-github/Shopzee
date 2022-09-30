@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ImgMediaCard from "./card";
 
 import { product } from "./dummyProducts";
 import { Grid } from "@mui/material";
 import CartCard from "./cartcard";
+import { useLocation } from "react-router";
 
 function ProductGrid({ cart, products }) {
-  
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/products" && cart) console.log(cart);
+  }, []);
+
   return (
     <div>
       <Grid container spacing={1}>

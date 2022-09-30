@@ -82,7 +82,7 @@ export default function CartCard({ product }) {
           </Typography>
           <Typography
             sx={{ color: "blue" }}
-          >{`${product.detail.price}$`}</Typography>
+          >{`${product.detail.price} Rs`}</Typography>
           <Typography>{product.copies}</Typography>
         </CardContent>
         <CardActions>

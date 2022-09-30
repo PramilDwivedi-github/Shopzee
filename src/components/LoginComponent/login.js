@@ -57,6 +57,7 @@ function Login({ setLoginRole }) {
       const resp_data = await response.json();
       if (resp_data.message === "logged in successfuly") {
         localStorage.setItem("token", resp_data.token);
+        localStorage.setItem("role", data.role);
         setLoginRole({ isLoggedIn: true, role: data.role });
         setProgressBar(false);
         navigate("/products", { replace: true });
@@ -185,7 +186,7 @@ function Login({ setLoginRole }) {
                   component="button"
                   variant="body2"
                   onClick={() => {
-                    console.info("I'm a button.");
+                    navigate("/forgotPassword");
                   }}
                 >
                   Forgot Password

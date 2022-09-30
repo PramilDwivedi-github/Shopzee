@@ -23,7 +23,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { Icon } from "@mui/material";
 import { useNavigate } from "react-router";
 
-export default function TemporaryDrawer({ login_role, handleLogout }) {
+export default function TemporaryDrawer({
+  login_role,
+  handleLogout,
+  setCurrentPage,
+}) {
   const navigate = useNavigate();
   const [state, setState] = React.useState({
     left: false,
@@ -42,7 +46,6 @@ export default function TemporaryDrawer({ login_role, handleLogout }) {
     "Orders",
     "Logout",
     "Products",
-    "Filter",
     "AddProduct",
   ];
   const SignedIcons = [
@@ -51,7 +54,7 @@ export default function TemporaryDrawer({ login_role, handleLogout }) {
     WidgetsIcon,
     LogoutIcon,
     DashboardIcon,
-    FilterListIcon,
+
     AddIcon,
   ];
 
@@ -86,19 +89,31 @@ export default function TemporaryDrawer({ login_role, handleLogout }) {
                 disablePadding
                 onClick={() => {
                   switch (index) {
+                    case 0:
+                      setCurrentPage("Profile");
+                      navigate("/profile");
+                      break;
                     case 4:
+                      setCurrentPage("Products");
                       navigate("/products");
                       break;
+                    // case 5:
+                    //   setCurrentPage("Filter");
+                    //   navigate("/filter");
+                    //   break;
                     case 1:
+                      setCurrentPage("Cart");
                       navigate("/cart");
                       break;
                     case 2:
+                      setCurrentPage("Orders");
                       navigate("/orders");
                       break;
                     case 3:
                       handleLogout();
                       break;
-                    case 6:
+                    case 5:
+                      setCurrentPage("AddProduct");
                       navigate("/addProduct");
                   }
                 }}

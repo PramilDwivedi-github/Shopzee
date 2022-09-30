@@ -115,9 +115,9 @@ export default function ImgMediaCard({ product, cart }) {
           <Typography gutterBottom variant="h5" component="div">
             {product.name}
           </Typography>
-          <Typography sx={{ color: "blue" }}>{`${
-            cart ? product.detail.price : product.price
-          }$`}</Typography>
+          <Typography
+            sx={{ color: "blue" }}
+          >{`${product.price} Rs`}</Typography>
         </CardContent>
         <CardActions>
           {login_role.role === "Customer" && (

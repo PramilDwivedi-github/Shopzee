@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Login from "./components/LoginComponent/login";
 import Register from "./components/RegisterComponent/register";
 import Dashboard from "./components/dashboard/dashboard";
@@ -11,6 +11,10 @@ import Cart from "./components/dashboard/cart";
 import CustomRoute from "./components/CustomRoute";
 import ProductDetail from "./components/dashboard/ProductDetail";
 import AddProduct from "./components/dashboard/addproduct";
+import OrderDetail from "./components/dashboard/OrderDetail";
+import Profile from "./components/dashboard/profile";
+import Filter from "./components/Filter/filter";
+import ForgetPass from "./components/forgotPassword/forgetpass";
 
 export const AppContext = React.createContext();
 
@@ -21,6 +25,12 @@ const App = () => {
     isLoggedIn: false,
     role: "Customer",
   });
+
+  useEffect(() => {
+    if (login_role.isLoggedIn === false && localStorage.getItem("token")) {
+      setLoginRole({ isLoggedIn: true, role: localStorage.getItem("role") });
+    }
+  }, [login_role]);
   // render() {
   return (
     <AppContext.Provider
@@ -44,6 +54,9 @@ const App = () => {
               <Route path="cart" element={<Cart />}></Route>
               <Route path="productDetail" element={<ProductDetail />}></Route>
               <Route path="addProduct" element={<AddProduct />}></Route>
+              <Route path="orderDetail" element={<OrderDetail />}></Route>
+              <Route path="profile" element={<Profile />}></Route>
+              <Route path="filter" element={<Filter />}></Route>
             </Route>
 
             <Route
@@ -51,6 +64,7 @@ const App = () => {
               element={<Login setLoginRole={setLoginRole} />}
             ></Route>
             <Route path="/register" element={<Register />}></Route>
+            <Route path="/forgotPassword" element={<ForgetPass />}></Route>
           </Routes>
         </BrowserRouter>
       </div>

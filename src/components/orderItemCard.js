@@ -1,60 +1,48 @@
-import {
-  Card,
-  CardMedia,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import { Grid } from "@mui/material";
-
 import React from "react";
+import {
+  Grid,
+  Typography,
+  CardMedia,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { useNavigate } from "react-router";
 
-function OrderCard({ order }) {
+function OrderItemCard({ item }) {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const { order_id } = order.order;
-  const name = order.items[0].product.name;
-  const date = order.order.createdAt;
-  const orderItemCount = order.items.length;
-  const cost = order.cost;
-  const image = order.items[0].product.img;
-
   const navigate = useNavigate();
 
   const NavigateToDetail = () => {
-    navigate("/orderDetail", { state: { items: order.items } });
+    navigate("/productDetail", { state: { product: item.product } });
   };
 
   return (
-    <Grid container width={isMatch ? 360 : 520} height={120} marginTop="2vh">
+    <Grid container width={isMatch ? 360 : 520} height={120}>
       <Grid item xs={4} boxShadow="1">
         <CardMedia
           sx={{ objectFit: "contain" }}
           onClick={NavigateToDetail}
           component="img"
-          image={image}
+          image={item.product.img}
           height="120"
         ></CardMedia>
       </Grid>
       <Grid item xs={8} boxShadow="1">
         <div>
           <div>
-            <Typography>{name}</Typography>
-            <Typography variant="caption">{`+${orderItemCount -
-              1}more`}</Typography>
+            <Typography>{item.product.name}</Typography>
           </div>
 
           <div>
             {" "}
-            <Typography variant="caption">{date.slice(0, 10)}</Typography>
+            <Typography variant="caption">{item.copies}</Typography>
             <Typography variant="caption" sx={{ marginLeft: "1vw" }}>
-              {date.slice(12, 16)}
+              {`copies`}
             </Typography>
           </div>
 
-          <Typography color={"green"}>{`${cost} Rs`}</Typography>
+          <Typography color={"green"}>{`${item.cost} Rs`}</Typography>
           <Typography
             onClick={NavigateToDetail}
             variant="caption"
@@ -68,4 +56,4 @@ function OrderCard({ order }) {
   );
 }
 
-export default OrderCard;
+export default OrderItemCard;

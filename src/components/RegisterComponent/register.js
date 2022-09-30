@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
 import LinearDeterminate from "../progressbar";
 import PositionedSnackbar from "../snackbar";
+import { CircularProgress } from "@mui/material";
 
 function Register() {
   const [data, setData] = useState({
@@ -116,10 +117,10 @@ function Register() {
         width: "75%",
         marginLeft: "12%",
         alignSelf: "center",
-        flexFlow: "column",
+        // flexFlow: "column",
       }}
     >
-      {progressBar && <LinearDeterminate sx={{ height: "5%" }} />}
+      {progressBar && <CircularProgress />}
       <PositionedSnackbar
         snackState={snackState}
         setSnackState={setSnackState}
@@ -156,6 +157,7 @@ function Register() {
             id="outlined-required"
             label="Phone"
             defaultValue=""
+            type={"number"}
             margin="normal"
             onChange={(e) => {
               setData({ ...data, phone: e.target.value });
@@ -166,6 +168,7 @@ function Register() {
           <TextField
             required
             id="outlined-required"
+            type={"email"}
             label="Email"
             fullWidth
             defaultValue=""
@@ -180,6 +183,7 @@ function Register() {
             required
             id="outlined-required"
             label="Password"
+            type={"password"}
             defaultValue=""
             margin="normal"
             onChange={(e) => {
@@ -192,6 +196,7 @@ function Register() {
             required
             id="outlined-required"
             label="Confirm Password"
+            type={"password"}
             defaultValue=""
             margin="normal"
             onChange={(e) => {
