@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import LinearDeterminate from "../progressbar";
 import { maxHeight } from "@mui/system";
 import PositionedSnackbar from "../snackbar";
+import { backend_url } from "../../backendUrl";
 
 function Login({ setLoginRole }) {
   const [data, setData] = useState({
@@ -44,7 +45,7 @@ function Login({ setLoginRole }) {
     } else if (!pattern.test(data.email)) {
       setSnackState({ ...snackState, open: true, msg: "enter valid email" });
     } else {
-      let url = "https://ecom-backend-nodejs.herokuapp.com/";
+      let url = backend_url;
       if (data.role === "Customer") url += "buyer/api/login";
       else url += "seller/api/login";
       const response = await fetch(url, {

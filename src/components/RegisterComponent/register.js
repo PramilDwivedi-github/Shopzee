@@ -7,6 +7,7 @@ import Radio from "@mui/material/Radio";
 import LinearDeterminate from "../progressbar";
 import PositionedSnackbar from "../snackbar";
 import { CircularProgress } from "@mui/material";
+import { backend_url } from "../../backendUrl";
 
 function Register() {
   const [data, setData] = useState({
@@ -64,7 +65,7 @@ function Register() {
           open: true,
         });
       } else {
-        let url = "https://ecom-backend-nodejs.herokuapp.com/";
+        let url = backend_url;
         if (role === "Customer") url += "buyer/api/register";
         else url += "seller/api/register";
         const response = await fetch(url, {
