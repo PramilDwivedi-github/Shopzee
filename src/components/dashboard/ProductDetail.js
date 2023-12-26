@@ -1,6 +1,5 @@
 import { Grid, CardMedia, Card, Typography, Button } from "@mui/material";
-import { Box } from "@mui/system";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { AppContext } from "../../App";
 import { backend_url } from "../../backendUrl";

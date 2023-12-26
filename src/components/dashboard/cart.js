@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import ProductGrid from "../productGrid";
-import { useNavigate, useOutletContext } from "react-router";
-import LinearDeterminate from "../progressbar";
+import { useNavigate } from "react-router";
 import PositionedSnackbar from "../snackbar";
 import { backend_url } from "../../backendUrl";
 import { Button, Typography } from "@mui/material";

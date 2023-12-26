@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import Login from "./components/LoginComponent/login";
@@ -8,7 +7,6 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Products from "./components/dashboard/products";
 import Orders from "./components/dashboard/orders";
 import Cart from "./components/dashboard/cart";
-import CustomRoute from "./components/CustomRoute";
 import ProductDetail from "./components/dashboard/ProductDetail";
 import AddProduct from "./components/dashboard/addproduct";
 import OrderDetail from "./components/dashboard/OrderDetail";

@@ -9,11 +9,10 @@ import {
   breadcrumbsClasses,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { useNavigate, useOutletContext } from "react-router";
+import { useNavigate } from "react-router";
 import { AppContext } from "../../App";
 import { backend_url } from "../../backendUrl";
 import CustomizedMenus from "../category";
-import LinearDeterminate from "../progressbar";
 import PositionedSnackbar from "../snackbar";
 
 let initialProduct = {

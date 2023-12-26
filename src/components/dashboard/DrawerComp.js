@@ -8,8 +8,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -20,7 +18,6 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import AddIcon from "@mui/icons-material/Add";
-import { Icon } from "@mui/material";
 import { useNavigate } from "react-router";
 
 export default function TemporaryDrawer({

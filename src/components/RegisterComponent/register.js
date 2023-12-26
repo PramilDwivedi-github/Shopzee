@@ -4,7 +4,6 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
-import LinearDeterminate from "../progressbar";
 import PositionedSnackbar from "../snackbar";
 import { CircularProgress } from "@mui/material";
 import { backend_url } from "../../backendUrl";

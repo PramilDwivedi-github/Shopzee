@@ -1,20 +1,10 @@
-import {
-  Divider,
-  Grid,
-  Slider,
-  useMediaQuery,
-  Button,
-  useTheme,
-} from "@mui/material";
+import { Divider, useMediaQuery, Button, useTheme } from "@mui/material";
 import _ from "lodash";
 import React, { useContext, useEffect, useState } from "react";
-import { useOutletContext } from "react-router";
 import { AppContext } from "../../App";
 import { backend_url } from "../../backendUrl";
-import ImgMediaCard from "../card";
 import Filter from "../Filter/filter";
 import ProductGrid from "../productGrid";
-import LinearDeterminate from "../progressbar";
 import PositionedSnackbar from "../snackbar";
 import BasicModal from "./modal";
 

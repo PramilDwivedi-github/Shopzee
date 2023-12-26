@@ -1,6 +1,5 @@
 import React from "react";
 import { useLocation } from "react-router";
-import { product } from "../dummyProducts";
 import OrderItemCard from "../orderItemCard";
 import { Grid } from "@mui/material";
 

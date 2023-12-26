@@ -1,12 +1,8 @@
-import { AppBar, Tabs, Toolbar, Tab, Typography, Button } from "@mui/material";
-import React, { useContext, useState } from "react";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import useTheme from "@mui/material";
+import React, { useContext } from "react";
+
 import Header from "./header";
 import { Outlet } from "react-router-dom";
-import { display, margin } from "@mui/system";
-import LinearDeterminate from "../progressbar";
+
 import { AppContext } from "../../App";
 
 function Dashboard() {

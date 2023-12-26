@@ -12,7 +12,6 @@ import {
 import { backend_url } from "../../backendUrl";
 import { AppContext } from "../../App";
 import PositionedSnackbar from "../snackbar";
-import { Tune } from "@mui/icons-material";
 
 function Profile() {
   const { login_role, setProgressBar } = useContext(AppContext);
