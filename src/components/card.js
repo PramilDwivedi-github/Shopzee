@@ -7,10 +7,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router";
-import { backend_url } from "../backendUrl";
 
 import PositionedSnackbar from "./snackbar";
 import { productContext } from "./dashboard/products";
+import { addCartItem } from "../services/buyer";
+import { removeProduct } from "../services/seller";
 
 export default function ImgMediaCard({ product, cart }) {
   const navigate = useNavigate();
@@ -21,13 +22,6 @@ export default function ImgMediaCard({ product, cart }) {
     fetchProducts,
     setProgressBar,
   } = React.useContext(productContext);
-
-  const state = {
-    setCurrentPage,
-    login_role,
-    setProgressBar,
-    product_id: product.product_id,
-  };
 
   const initialSnackState = {
     open: false,
@@ -44,16 +38,7 @@ export default function ImgMediaCard({ product, cart }) {
     if (!login_role.isLoggedIn) navigate("/login");
     else {
       setProgressBar(true);
-      let cartUrl = backend_url + "buyer/api/addCartItem";
-      const response = await fetch(cartUrl, {
-        method: "POST",
-        body: JSON.stringify(product),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const resp_data = await response.json();
+      const resp_data = await addCartItem(product);
       setProgressBar(false);
       if (
         resp_data.message === "added successfuly" ||
@@ -74,16 +59,7 @@ export default function ImgMediaCard({ product, cart }) {
 
   const removeItem = async () => {
     setProgressBar(true);
-    let cartUrl = backend_url + "seller/api/removeProducts";
-    const response = await fetch(cartUrl, {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({ product_id: product.product_id }),
-    });
-    const resp_data = await response.json();
+    const resp_data = await removeProduct(product.product_id);
     setProgressBar(false);
     if (resp_data.message === "Removed SuccessFuly") {
       fetchProducts();
@@ -104,7 +80,7 @@ export default function ImgMediaCard({ product, cart }) {
           component="img"
           alt="green iguana"
           height="180"
-          image={product.img}
+          image={product &&product.productImages&& product.productImages.length && product.productImages[0].img_url}
           onClick={() => {
             navigate("/productDetail", { state: { product } });
           }}

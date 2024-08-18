@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import ProductGrid from "../productGrid";
 import { useNavigate } from "react-router";
 import PositionedSnackbar from "../snackbar";
-import { backend_url } from "../../backendUrl";
 import { Button, Typography } from "@mui/material";
 import { AppContext } from "../../App";
+import { getMyCartItems, placeMyOrder } from "../../services/buyer";
 
 export const cartContext = React.createContext();
 
@@ -29,17 +29,9 @@ function Cart() {
 
   const fetchCartItems = async () => {
     setProgressBar(true);
-    let cartUrl = backend_url + "buyer/api/mycart";
-    const response = await fetch(cartUrl, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    const resp_data = await response.json();
+    const resp_data = await getMyCartItems();
     setProgressBar(false);
-    if (resp_data.message != "success") {
+    if (resp_data.message !== "success") {
       setSnackState({
         ...snackState,
         open: true,
@@ -62,15 +54,7 @@ function Cart() {
       });
     else {
       setProgressBar(true);
-      let orderUrl = backend_url + "buyer/api/placeOrder";
-      const response = await fetch(orderUrl, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const resp_data = await response.json();
+      const resp_data = await placeMyOrder();
       setProgressBar(false);
       if (resp_data.message === "order placed") {
         setSnackState({

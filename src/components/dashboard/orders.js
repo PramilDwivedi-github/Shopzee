@@ -1,13 +1,13 @@
 import { Grid } from "@mui/material";
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
-import { backend_url } from "../../backendUrl";
 import OrderCard from "../ordercard";
 import PositionedSnackbar from "../snackbar";
 import { AppContext } from "../../App";
+import { getMyOrders } from "../../services/buyer";
 
 function Orders() {
-  const { login_role, setCurrentPage, setProgressBar } = useContext(AppContext);
+  const { login_role, setProgressBar } = useContext(AppContext);
 
   const [orders, setOrders] = useState([]);
   const initialSnackState = {
@@ -22,18 +22,8 @@ function Orders() {
   const fetchOrder = async () => {
     if (!login_role.isLoggedIn) return;
     setProgressBar(true);
-    let order_url = backend_url;
-    if (login_role.role === "Customer") order_url += "buyer/api/myorders";
-    else order_url += "seller/api/mysales";
 
-    const response = await fetch(order_url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-
-    const resp_data = await response.json();
+    const resp_data = await getMyOrders();
     setProgressBar(false);
     if (resp_data.message === "success") {
       setOrders(resp_data.orders);

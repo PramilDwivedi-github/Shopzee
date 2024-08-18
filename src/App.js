@@ -38,7 +38,6 @@ const App = () => {
         login_role,
         setCurrentPage,
         setProgressBar,
-        login_role,
         setLoginRole,
       }}
     >

@@ -1,19 +1,17 @@
 import {
   Grid,
   Card,
-  CardMedia,
-  Input,
   TextField,
   Button,
   Typography,
-  breadcrumbsClasses,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { AppContext } from "../../App";
-import { backend_url } from "../../backendUrl";
 import CustomizedMenus from "../category";
 import PositionedSnackbar from "../snackbar";
+import ImageCrousal from "../ImageCrousel";
+import { addMyProduct } from "../../services/seller";
 
 let initialProduct = {
   name: "",
@@ -22,7 +20,10 @@ let initialProduct = {
   price: 0.0,
   description: "",
   available: "",
+  productImages:[]
 };
+
+const acceptedFileExtensions = [".png",".jpg",".jpeg"]
 
 function AddProduct() {
   const [product, setProduct] = useState(initialProduct);
@@ -30,15 +31,20 @@ function AddProduct() {
   const { setProgressBar, setCurrentPage } = useContext(AppContext);
 
   const convertBase64 = (e) => {
-    let files = e.target.files;
-    let file = files[0];
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setProduct({ ...product, img: reader.result });
-    };
+    const image = {
+      content:e.target.files[0],
+      url:URL.createObjectURL(e.target.files[0]),
+      title:e.target.files[0].name
+    }
+    setProduct({ ...product, productImages: [image, ...product.productImages ] });
   };
+
+  const handleImageDelete = (image,index)=>{
+    product.productImages.splice(index,1);
+    setProduct({ ...product, productImages: [...product.productImages ] });
+  }
+
+
   const [snackState, setSnackState] = useState({
     open: false,
     msg: "default",
@@ -54,13 +60,13 @@ function AddProduct() {
     console.log(product);
     let flag = true;
     let empty = null;
-    for (let i in product) {
-      if (product[i] === initialProduct[i]) {
-        flag = false;
-        empty = i;
-        break;
-      }
-    }
+    // for (let i in product) {
+    //   if (product[i] === initialProduct[i]) {
+    //     flag = false;
+    //     empty = i;
+    //     break;
+    //   }
+    // }
     if (flag) {
       if (isNaN(+product.price))
         setSnackState({
@@ -69,16 +75,19 @@ function AddProduct() {
           open: true,
         });
       else {
-        const response = await fetch(backend_url + "seller/api/addProduct", {
-          method: "POST",
-          body: JSON.stringify(product),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const payload = new FormData();
 
-        const resp_data = await response.json();
+        Object.keys(product).forEach(field=>{
+          if(field !== "productImages")
+          payload.append(field,product[field])
+        })
+
+
+        product.productImages.forEach(image=>{
+          payload.append("productImages",image.content)
+        })
+
+        const resp_data = await addMyProduct(payload);
         setProgressBar(false);
         if (resp_data.message === "product added successfully") {
           setSnackState({
@@ -135,20 +144,14 @@ function AddProduct() {
         <Grid item xs={12}>
           <Card
             sx={{
-              //   maxWidth: 600,
+                // maxWidth: 600,
               maxHeight: 600,
               height: 250,
             }}
           >
-            <CardMedia
-              sx={{ objectFit: "contain" }}
-              component="img"
-              alt="green iguana"
-              height="250"
-              src={product.img}
-            />
+            <ImageCrousal images={product.productImages} onImageDelete={handleImageDelete}/>
           </Card>
-          <Input type="file" onChange={convertBase64}></Input>
+          <input type="file" multiple accept={acceptedFileExtensions.join(', ')} onChange={convertBase64}/>
           <Typography variant="caption">
             choose product image in .jpeg or .png
           </Typography>

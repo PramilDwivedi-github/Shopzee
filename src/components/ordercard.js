@@ -8,7 +8,6 @@ function OrderCard({ order }) {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { order_id } = order.order;
   const name = order.items[0].product.name;
   const date = order.order.createdAt;
   const orderItemCount = order.items.length;

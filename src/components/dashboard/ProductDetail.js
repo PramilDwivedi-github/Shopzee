@@ -1,8 +1,9 @@
-import { Grid, CardMedia, Card, Typography, Button } from "@mui/material";
+import { Grid, Card, Typography, Button } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { AppContext } from "../../App";
-import { backend_url } from "../../backendUrl";
+import ImageCrousal from "../ImageCrousel";
+import { addCartItem } from "../../services/buyer";
 
 const ProductDetail = () => {
   const { setProgressBar, setCurrentPage, login_role } = useContext(AppContext);
@@ -25,17 +26,7 @@ const ProductDetail = () => {
     if (!login_role.isLoggedIn) navigate("/login");
     else {
       setProgressBar(true);
-      let cartUrl = backend_url + "buyer/api/addCartItem";
-      product.copies = copies;
-      const response = await fetch(cartUrl, {
-        method: "POST",
-        body: JSON.stringify(product),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const resp_data = await response.json();
+      const resp_data = await addCartItem(product);
       setProgressBar(false);
       if (
         resp_data.message === "added successfuly" ||
@@ -59,13 +50,7 @@ const ProductDetail = () => {
       <Grid container>
         <Grid item md={6} xs={12}>
           <Card sx={{ maxWidth: 600, maxHeight: 600, height: 250 }}>
-            <CardMedia
-              sx={{ objectFit: "contain" }}
-              component="img"
-              alt="green iguana"
-              height="180"
-              image={product.img}
-            />
+            <ImageCrousal images={product && product.productImages} dynamicUrlKey={"img_url"}/>
           </Card>
         </Grid>
         <Grid item md={6} xs={12}>
