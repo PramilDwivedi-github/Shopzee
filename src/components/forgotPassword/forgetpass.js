@@ -1,7 +1,7 @@
 import { Button, CircularProgress, Input, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { backend_url } from "../../backendUrl";
+import { backend_url } from "../../services/backendUrl";
 import PositionedSnackbar from "../snackbar";
 
 function ForgetPass() {

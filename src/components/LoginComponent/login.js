@@ -8,7 +8,7 @@ import Radio from "@mui/material/Radio";
 import { useNavigate } from "react-router";
 import LinearDeterminate from "../progressbar";
 import PositionedSnackbar from "../snackbar";
-import { backend_url } from "../../backendUrl";
+import { loginUser } from "../../services/Authentication";
 
 function Login({ setLoginRole }) {
   const [data, setData] = useState({
@@ -43,17 +43,7 @@ function Login({ setLoginRole }) {
     } else if (!pattern.test(data.email)) {
       setSnackState({ ...snackState, open: true, msg: "enter valid email" });
     } else {
-      let url = backend_url;
-      if (data.role === "Customer") url += "buyer/api/login";
-      else url += "seller/api/login";
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify({ email: data.email, password: data.password }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-      const resp_data = await response.json();
+      const resp_data = await loginUser({ email: data.email, password: data.password },data.role)
       if (resp_data.message === "logged in successfuly") {
         localStorage.setItem("token", resp_data.token);
         localStorage.setItem("role", data.role);
@@ -68,7 +58,6 @@ function Login({ setLoginRole }) {
           severity: "error",
         });
       }
-      console.log(resp_data);
     }
     setProgressBar(false);
   };
@@ -100,6 +89,7 @@ function Login({ setLoginRole }) {
             }
             style={{ height: "100%", width: "100%" }}
             placeholder="Img"
+            alt="ecomxpress"
           ></img>
         </Grid>
         <Grid

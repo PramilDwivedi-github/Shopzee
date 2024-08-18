@@ -112,6 +112,8 @@ export default function TemporaryDrawer({
                     case 5:
                       setCurrentPage("AddProduct");
                       navigate("/addProduct");
+                      break;
+                    default:
                   }
                 }}
               >
@@ -145,6 +147,8 @@ export default function TemporaryDrawer({
                       break;
                     case 0:
                       navigate("/login");
+                      break;
+                    default:
                   }
                 }}
               >

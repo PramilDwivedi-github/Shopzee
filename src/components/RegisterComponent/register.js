@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
 import PositionedSnackbar from "../snackbar";
 import { CircularProgress } from "@mui/material";
-import { backend_url } from "../../backendUrl";
+import { registerUser } from "../../services/Authentication";
 
 function Register() {
   const [data, setData] = useState({
@@ -64,17 +64,7 @@ function Register() {
           open: true,
         });
       } else {
-        let url = backend_url;
-        if (role === "Customer") url += "buyer/api/register";
-        else url += "seller/api/register";
-        const response = await fetch(url, {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        });
-        const resp_data = await response.json();
+        const resp_data = await registerUser(data,role);
         setProgressBar(false);
         if (
           resp_data.message === "User Registered Successfully" ||

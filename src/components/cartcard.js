@@ -6,11 +6,11 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-import { resolvePath, useNavigate } from "react-router";
-import { backend_url } from "../backendUrl";
+import { useNavigate } from "react-router";
 import LinearDeterminate from "./progressbar";
 import PositionedSnackbar from "./snackbar";
 import { cartContext } from "./dashboard/cart";
+import { removeCartItem } from "../services/buyer";
 
 export default function CartCard({ product }) {
   const navigate = useNavigate();
@@ -36,16 +36,7 @@ export default function CartCard({ product }) {
 
   const removeItem = async () => {
     setProgressBar(true);
-    let cartUrl = backend_url + "buyer/api/removeCartItem";
-    const response = await fetch(cartUrl, {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({ item_id: product.item_id }),
-    });
-    const resp_data = await response.json();
+    const resp_data = await removeCartItem(product.item_id);
     setProgressBar(false);
     if (resp_data.message === "Deleted Cart Item") {
       fetchCartItems();

@@ -89,6 +89,8 @@ function Header() {
                       setCurrentPage("addProduct");
                       console.log(value);
                       navigate("/addProduct");
+                      break;
+                    default:
                   }
                 }}
                 indicatorColor="secondary"

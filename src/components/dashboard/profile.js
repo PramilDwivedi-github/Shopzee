@@ -9,9 +9,11 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { backend_url } from "../../backendUrl";
+import { backend_url } from "../../services/backendUrl";
 import { AppContext } from "../../App";
 import PositionedSnackbar from "../snackbar";
+import { getBuyerData } from "../../services/buyer";
+import { getSellerData } from "../../services/seller";
 
 function Profile() {
   const { login_role, setProgressBar } = useContext(AppContext);
@@ -45,18 +47,7 @@ function Profile() {
 
   const getuser = async () => {
     setProgressBar(true);
-    let user_url = backend_url;
-
-    if (login_role.role === "Customer") user_url += "buyer/api/data";
-    else user_url += "seller/api/data";
-    const response = await fetch(user_url, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    const resp_data = await response.json();
+    const resp_data = await login_role.role === "Customer" ? getBuyerData(): getSellerData();
     setProgressBar(false);
     if (resp_data.message === "success") {
       setUser({

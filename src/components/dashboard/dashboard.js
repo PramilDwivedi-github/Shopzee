@@ -1,20 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import Header from "./header";
 import { Outlet } from "react-router-dom";
 
-import { AppContext } from "../../App";
 
 function Dashboard() {
-  const {
-    login_role,
-    currentPage,
-    setCurrentPage,
-    setLoginRole,
-    progressBar,
-    setProgressBar,
-  } = useContext(AppContext);
-
   return (
     <div
       style={{
@@ -25,11 +15,6 @@ function Dashboard() {
       }}
     >
       <Header
-      // setCurrentPage={setCurrentPage}
-      // setLoginRole={setLoginRole}
-      // currentPage={currentPage}
-      // login_role={login_role}
-      // progressBar={progressBar}
       />
       <div
         className="Dashboard-Afer-Header"

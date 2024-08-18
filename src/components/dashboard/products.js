@@ -2,11 +2,11 @@ import { Divider, useMediaQuery, Button, useTheme } from "@mui/material";
 import _ from "lodash";
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../App";
-import { backend_url } from "../../backendUrl";
 import Filter from "../Filter/filter";
 import ProductGrid from "../productGrid";
 import PositionedSnackbar from "../snackbar";
 import BasicModal from "./modal";
+import { getFilteredProducts, getProducts } from "../../services/products";
 
 export const productContext = React.createContext();
 
@@ -44,20 +44,7 @@ function Products() {
 
   const fetchProducts = async () => {
     setProgressBar(true);
-    let product_url = backend_url;
-    if (login_role.role === "Customer") {
-      product_url += "product/api/all";
-    } else {
-      product_url += "seller/api/myProducts";
-    }
-
-    const response = await fetch(product_url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    const resp_data = await response.json();
+    const resp_data = await getProducts(login_role.role)
     setProgressBar(false);
     if (resp_data.message === "success") {
       setProducts([...resp_data.products]);
@@ -73,18 +60,7 @@ function Products() {
 
   const applyFilter = async () => {
     setProgressBar(true);
-    let filterUrl = backend_url + "product/api/filter";
-
-    const response = await fetch(filterUrl, {
-      method: "POST",
-      body: JSON.stringify({ filter }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
-
-    const resp_data = await response.json();
-
+    const resp_data = await getFilteredProducts(filter);
     setProgressBar(false);
 
     if (resp_data.message === "success") {
@@ -110,9 +86,7 @@ function Products() {
     if (_.isEqual(filter, initialFilter) === false) {
       console.log(filter);
       applyFilter();
-    } else {
-      fetchProducts();
-    }
+    } 
   }, [filter]);
   return (
     <div style={{ marginTop: isMatch ? "8vh" : "10vh" }}>

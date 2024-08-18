@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Category } from "@mui/icons-material";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -67,11 +66,6 @@ export default function CustomizedMenus({ product, setProduct }) {
     setAnchorEl(null);
   };
 
-  const display = () => {
-    if (anchorEl !== null) return anchorEl;
-    return Category;
-  };
-
   return (
     <div>
       <Button
@@ -107,23 +101,6 @@ export default function CustomizedMenus({ product, setProduct }) {
             </MenuItem>
           );
         })}
-        {/* <MenuItem onClick={handleClose} disableRipple>
-          <EditIcon />
-          Edit
-        </MenuItem>
-        <MenuItem onClick={handleClose} disableRipple>
-          <FileCopyIcon />
-          Duplicate
-        </MenuItem>
-        <Divider sx={{ my: 0.5 }} />
-        <MenuItem onClick={handleClose} disableRipple>
-          <ArchiveIcon />
-          Archive
-        </MenuItem>
-        <MenuItem onClick={handleClose} disableRipple>
-          <MoreHorizIcon />
-          More
-        </MenuItem> */}
       </StyledMenu>
     </div>
   );
