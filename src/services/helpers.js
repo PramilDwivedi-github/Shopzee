@@ -1,11 +1,11 @@
-export function normalizeResponse(resp){
+export async function normalizeResponse(resp){
     return resp.json().then(data=>data)
 }
 
-export function handleErrors(resp){
+export async function handleErrors(resp){
     if(!resp.ok){
-        const respData = normalizeResponse(resp);
-        console.log(respData.errors)
+        const respData = await normalizeResponse(resp);
+        console.log(respData)
         throw new Error(respData.message)
     }
     return resp;

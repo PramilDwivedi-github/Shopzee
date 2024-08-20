@@ -82,11 +82,11 @@ export default function ImgMediaCard({ product, cart }) {
           height="180"
           image={product &&product.productImages&& product.productImages.length && product.productImages[0].img_url}
           onClick={() => {
-            navigate("/productDetail", { state: { product } });
+            navigate(`/productDetail/${product&& product.product_id}`);
           }}
         />
         <CardContent
-          onClick={() => navigate("/productDetail", { state: { product } })}
+          onClick={() => navigate(`/productDetail/${product&& product.product_id}`)}
         >
           <Typography gutterBottom variant="h5" component="div">
             {product.name}

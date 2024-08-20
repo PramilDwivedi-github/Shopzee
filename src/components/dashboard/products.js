@@ -44,26 +44,27 @@ function Products() {
 
   const fetchProducts = async () => {
     setProgressBar(true);
-    const resp_data = await getProducts(login_role.role)
-    setProgressBar(false);
-    if (resp_data.message === "success") {
+    try {
+      const resp_data = await getProducts(login_role.role)
       setProducts([...resp_data.products]);
-    } else {
+    } catch(err) {
       alert("unale to fetch products");
       setSnackState({
         ...snackState,
         open: true,
-        msg: "unale to fetch products",
+        msg: err.message || "unale to fetch products",
       });
+    }
+    finally{
+      setProgressBar(false);
     }
   };
 
   const applyFilter = async () => {
     setProgressBar(true);
-    const resp_data = await getFilteredProducts(filter);
-    setProgressBar(false);
-
-    if (resp_data.message === "success") {
+    
+    try{
+      const resp_data = await getFilteredProducts(filter);
       setProducts(resp_data.products);
       if (resp_data.products.length === 0)
         setSnackState({
@@ -72,8 +73,10 @@ function Products() {
           msg: "No Product Available for given filter",
           severity: "info",
         });
-    } else {
-      setSnackState({ ...snackState, open: true, msg: resp_data.message });
+    } catch(err) {
+      setSnackState({ ...snackState, open: true, msg: err.message });
+    }finally{
+      setProgressBar(false);
     }
   };
 

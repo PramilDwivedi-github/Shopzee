@@ -43,21 +43,22 @@ function Login({ setLoginRole }) {
     } else if (!pattern.test(data.email)) {
       setSnackState({ ...snackState, open: true, msg: "enter valid email" });
     } else {
-      const resp_data = await loginUser({ email: data.email, password: data.password },data.role)
-      if (resp_data.message === "logged in successfuly") {
+      try{
+        const resp_data = await loginUser({ email: data.email, password: data.password },data.role)
         localStorage.setItem("token", resp_data.token);
         localStorage.setItem("role", data.role);
         setLoginRole({ isLoggedIn: true, role: data.role });
         setProgressBar(false);
         navigate("/products", { replace: true });
-      } else {
+      }catch(err){
         setSnackState({
           ...snackState,
           open: true,
-          msg: resp_data.message,
+          msg: err.message,
           severity: "error",
         });
       }
+      
     }
     setProgressBar(false);
   };

@@ -87,9 +87,8 @@ function AddProduct() {
           payload.append("productImages",image.content)
         })
 
-        const resp_data = await addMyProduct(payload);
-        setProgressBar(false);
-        if (resp_data.message === "product added successfully") {
+        try{
+          const resp_data = await addMyProduct(payload);
           setSnackState({
             ...snackState,
             open: true,
@@ -100,13 +99,15 @@ function AddProduct() {
             setCurrentPage("Products");
             navigate("/products");
           }, 2000);
-        } else {
+        }catch(err){
           setSnackState({
             ...snackState,
             open: true,
-            msg: resp_data.message,
+            msg: err.message,
             severity: "info",
           });
+        }finally{
+          setProgressBar(false);
         }
       }
     } else {

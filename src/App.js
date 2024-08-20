@@ -23,7 +23,7 @@ const App = () => {
     isLoggedIn: false,
     role: "Customer",
   });
-
+  
   useEffect(() => {
     if (login_role.isLoggedIn === false && localStorage.getItem("token")) {
       setLoginRole({ isLoggedIn: true, role: localStorage.getItem("role") });
@@ -49,7 +49,7 @@ const App = () => {
               <Route path="products" element={<Products />}></Route>
               <Route path="orders" element={<Orders />}></Route>
               <Route path="cart" element={<Cart />}></Route>
-              <Route path="productDetail" element={<ProductDetail />}></Route>
+              <Route path="productDetail/:productId" element={<ProductDetail />}></Route>
               <Route path="addProduct" element={<AddProduct />}></Route>
               <Route path="orderDetail" element={<OrderDetail />}></Route>
               <Route path="profile" element={<Profile />}></Route>

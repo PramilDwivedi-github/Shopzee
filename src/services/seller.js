@@ -32,14 +32,14 @@ export async function getSellerData(){
 
 
 export async function addMyProduct(payload){
+    console.log(payload)
     let url =  `${baseUrl}/addProduct`
     return fetch(url,{
         method: 'POST',
         headers: {
-            "Content-type": "application/json; charset=UTF-8",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body:JSON.stringify(payload)
+        body:payload
     })
     .then(handleErrors)
     .then(normalizeResponse);

@@ -29,18 +29,20 @@ function Cart() {
 
   const fetchCartItems = async () => {
     setProgressBar(true);
-    const resp_data = await getMyCartItems();
-    setProgressBar(false);
-    if (resp_data.message !== "success") {
+    try{
+      const resp_data = await getMyCartItems();
+      setCartItems(resp_data.cartItems);
+      setCartValue(resp_data.cartValue);
+
+    }catch(err){
       setSnackState({
         ...snackState,
         open: true,
         severity: "error",
-        msg: resp_data.message,
+        msg: err.message,
       });
-    } else {
-      setCartItems(resp_data.cartItems);
-      setCartValue(resp_data.cartValue);
+    }finally{
+      setProgressBar(false);
     }
   };
 
@@ -54,9 +56,9 @@ function Cart() {
       });
     else {
       setProgressBar(true);
-      const resp_data = await placeMyOrder();
-      setProgressBar(false);
-      if (resp_data.message === "order placed") {
+      try{
+        const resp_data = await placeMyOrder();
+        setProgressBar(false);
         setSnackState({
           ...snackState,
           open: true,
@@ -65,8 +67,8 @@ function Cart() {
         });
         setCurrentPage("Orders");
         navigate("/orders");
-      } else {
-        setSnackState({ ...snackState, open: true, msg: resp_data.message });
+      } catch(err) {
+        setSnackState({ ...snackState, open: true, msg: err.message });
       }
     }
   };

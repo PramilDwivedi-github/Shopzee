@@ -58,14 +58,14 @@ export default function CartCard({ product }) {
           component="img"
           alt="green iguana"
           height="180"
-          image={product.detail.img}
+          image={product && product.detail && product.detail.img && product.detail.img.img_url}
           onClick={() =>
-            navigate("/productDetail", { state: { product: product.detail } })
+            navigate(`/productDetail/${product&& product.detail && product.detail.product_id}`)
           }
         />
         <CardContent
           onClick={() =>
-            navigate("/productDetail", { state: { product: product.detail } })
+            navigate(`/productDetail/${product&& product.product_id}`)
           }
         >
           <Typography gutterBottom variant="h5" component="div">
