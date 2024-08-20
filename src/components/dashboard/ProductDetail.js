@@ -1,15 +1,18 @@
 import { Grid, Card, Typography, Button } from "@mui/material";
-import React, { useContext, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import React, { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { AppContext } from "../../App";
 import ImageCrousal from "../ImageCrousel";
 import { addCartItem } from "../../services/buyer";
+import { getProductById } from "../../services/products";
 
 const ProductDetail = () => {
   const { setProgressBar, setCurrentPage, login_role } = useContext(AppContext);
   const { state } = useLocation();
-  const { product } = state;
+  const [product,setProduct] = useState({name:null,price:null,description:null,productImages:[]});
   const navigate = useNavigate();
+  const params = useParams();
+  const {productId} = params;
 
   const [copies, setCopies] = useState(1);
   const initialSnackState = {
@@ -22,25 +25,54 @@ const ProductDetail = () => {
   };
   const [snackState, setSnackState] = useState(initialSnackState);
 
+  useEffect(()=>{
+    fetchProductDetails()
+  },[productId])
+
+  const fetchProductDetails = async () =>{
+
+    try{
+      setProgressBar(true);
+
+      const resp_data = await getProductById(productId);;
+      setProgressBar(false);
+      if (resp_data.message === "success") {
+        setProduct(resp_data.product);
+      } else {
+        setSnackState({ ...snackState, open: true, msg: resp_data.message });
+        
+      }
+    }catch(err){
+      setSnackState({
+        ...snackState,
+        open: true,
+        msg: err.message,
+        severity: "error",
+      });
+      setProgressBar(false);
+    }
+  
+  }
+
+
   const addToCart = async () => {
     if (!login_role.isLoggedIn) navigate("/login");
     else {
       setProgressBar(true);
-      const resp_data = await addCartItem(product);
-      setProgressBar(false);
-      if (
-        resp_data.message === "added successfuly" ||
-        resp_data.message === "success"
-      ) {
+      try {
+        const resp_data = await addCartItem(product);
         setCurrentPage("Cart");
         navigate("/cart");
-      } else {
+      } catch(err) {
         setSnackState({
           ...snackState,
           open: true,
           severity: "error",
-          msg: resp_data.message,
+          msg: err.message,
         });
+      }
+      finally{
+        setProgressBar(false);
       }
     }
   };
@@ -56,9 +88,9 @@ const ProductDetail = () => {
         <Grid item md={6} xs={12}>
           <div>
             <div>
-              <Typography sx={{ fontSize: "2rem" }}>{product.name}</Typography>
+              <Typography sx={{ fontSize: "2rem" }}>{product && product.name}</Typography>
               <Typography sx={{ fontSize: "1.5rem" }}>
-                {`${product.price} $`}
+                {`${product && product.price} $`}
               </Typography>
               <Typography sx={{ fontSize: "0.8rem", color: "green" }}>
                 available
@@ -92,7 +124,7 @@ const ProductDetail = () => {
         </Grid>
         <Grid item md={12} xs={12}>
           <Typography sx={{ fontSize: "1.6rem" }}>Description</Typography>
-          <Typography>{product.description}</Typography>
+          <Typography>{product && product.description}</Typography>
           <Typography sx={{ fontSize: "1.6rem" }}>Sller Info</Typography>
           <Typography>This is seller information</Typography>
         </Grid>

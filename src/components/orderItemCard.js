@@ -14,7 +14,7 @@ function OrderItemCard({ item }) {
   const navigate = useNavigate();
 
   const NavigateToDetail = () => {
-    navigate("/productDetail", { state: { product: item.product } });
+    navigate(`/productDetail/${item.product.product_id}`);
   };
 
   return (

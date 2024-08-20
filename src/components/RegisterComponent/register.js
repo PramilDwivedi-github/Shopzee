@@ -64,12 +64,9 @@ function Register() {
           open: true,
         });
       } else {
-        const resp_data = await registerUser(data,role);
-        setProgressBar(false);
-        if (
-          resp_data.message === "User Registered Successfully" ||
-          resp_data.message === "Registered successfuly"
-        ) {
+        setProgressBar(true);
+        try {
+          const resp_data = await registerUser(data,role);
           setProgressBar(false);
           setSnackState({
             ...snackState,
@@ -80,15 +77,14 @@ function Register() {
           setTimeout(() => {
             navigate("/login");
           }, 3000);
-        } else {
+        } catch(err) {
           setSnackState({
             ...snackState,
             open: true,
-            msg: resp_data.message,
+            msg: err.message,
             severity: "error",
           });
         }
-        console.log(resp_data);
       }
     }
     setProgressBar(false);

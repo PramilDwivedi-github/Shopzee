@@ -23,9 +23,8 @@ function Orders() {
     if (!login_role.isLoggedIn) return;
     setProgressBar(true);
 
-    const resp_data = await getMyOrders();
-    setProgressBar(false);
-    if (resp_data.message === "success") {
+    try{
+      const resp_data = await getMyOrders();
       setOrders(resp_data.orders);
       setSnackState({
         ...snackState,
@@ -33,8 +32,10 @@ function Orders() {
         msg: "view your orders",
         severity: "success",
       });
-    } else {
-      setSnackState({ ...snackState, open: true, msg: resp_data.message });
+    } catch(err) {
+      setSnackState({ ...snackState, open: true, msg: err.message });
+    }finally{
+      setProgressBar(false);
     }
   };
 

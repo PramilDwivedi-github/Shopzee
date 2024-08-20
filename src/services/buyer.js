@@ -44,8 +44,9 @@ export async function getMyCartItems(){
 export async function removeCartItem(item_id){
     let url = `${baseUrl}/removeCartItem`;
     return  fetch(url,{
-        method: 'POST',
+        method: 'DELETE',
         headers: {
+            "Content-type": "application/json; charset=UTF-8",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body:JSON.stringify({item_id})
